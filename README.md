@@ -14,15 +14,15 @@ This plugin provides useful API endpoints.
 
     GET /api/entry/sku/:sku
 
-### Get by Section
+### Get Collection
 
-    GET /api/section/:slug
+    GET /api/entry/collection
 
 ##### Pagination
 
 To paginate the results just include a `page` and `perPage` parameter to the request.
 
-    api/section/:slug?page=1&perPage=10
+    api/collection?page=1&perPage=10
 
 ##### Filtering
 
@@ -42,23 +42,27 @@ This will be added to the entry element query like so:
     
 Which means you have a lot of control over the filters.
 
-**Basic Example**:
+**Basic Examples**:
 
+Get entries by section:
+
+    api/collection?filter[0][field]=section&filter[0][value]=news
+    
 Get all entries after a specific post date:
 
-    api/entry/section/news?filter[0][field]=postDate&filter[0][value][]=>= 2018-07-31
+    api/entry/collection?filter[0][field]=postDate&filter[0][value][]=>= 2018-07-31
     
 **Advanced Example**:
 
 Get all entries related to a category:
 
-    api/entry/section/news?filter[0][field]=relatedTo&filter[0][value][sourceElement]=100&filter[0][value][field]=category
+    api/entry/collection?filter[0][field]=relatedTo&filter[0][value][sourceElement]=100&filter[0][value][field]=category
     
 #### Ordering
 
 To order the results, include an order parameter such as the following:
 
-    api/section/:slug?order=postDate DESC
+    api/collection?order=postDate DESC
 
 ## Categories
 
@@ -70,6 +74,5 @@ To order the results, include an order parameter such as the following:
 
     GET /api/category/sku/:sku
 
-### Get by Group
-
-    GET /api/category/group/:slug
+### Get Collection
+    GET /api/category/collection

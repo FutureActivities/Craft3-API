@@ -33,23 +33,36 @@ class Category extends Component
     }
     
     /**
-     * Get categories by group
+     * Get collection of categories
      */
-    public function group($name)
+    public function collection()
     {
+        $request = \Craft::$app->getRequest();
+        $filter = $request->getParam('filter');
+        $order = $request->getParam('order');
+        
         $result = [
             'entries' => [],
             'descendants' => []
         ];
         
-        $categories = CraftCategory::find()
-            ->group($name)
-            ->level(1)
-            ->all();
+        $categories = CraftCategory::find();
+            
+        // Apply any filters
+        if ($filter) {
+            foreach($filter AS $f) {
+                $field = $f['field'];
+                $categories->$field = $f['value'];
+            }
+        }
+        
+        // Set the sort order
+        if ($order)
+            $entries->orderBy = $order;
 
         // Process each entry
         $children = [];
-        foreach($categories AS $category) {
+        foreach($categories->all() AS $category) {
             $result['entries'][] = Plugin::getInstance()->helper->parseAttributes($category);
             Plugin::getInstance()->helper->getDescendants($category, $children);
         }

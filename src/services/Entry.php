@@ -33,25 +33,17 @@ class Entry extends Component
     }
     
     /**
-     * Get a section entries
+     * Get a collection of entries
      */
-    public function section($name)
+    public function collection()
     {
-        $section = \Craft::$app->sections->getSectionByHandle($name);
-
         $request = \Craft::$app->getRequest();
         $page = (int)$request->getParam('page');
         $perPage = (int)$request->getParam('perPage') ?: 10;
         $filter = $request->getParam('filter');
         $order = $request->getParam('order');
-        
-        // Get the entries for this section
-        $entries = CraftEntry::find()
-            ->section($name);
-            
-        // If this is a structure then limit this to top level only
-        if ($section->type == 'structure')
-            $entries->level = 1;
+
+        $entries = CraftEntry::find();
             
         // Apply any filters
         if ($filter) {

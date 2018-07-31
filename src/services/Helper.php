@@ -11,7 +11,7 @@ class Helper extends Component
     /**
      * Parse an entries attributes converting them into a more usable format
      */
-    public function parseAttributes($entry, $parent = null)
+    public function parseAttributes($entry)
     {
         $result = [];
         
@@ -22,8 +22,10 @@ class Helper extends Component
                 $value = $attribute;
             } else if (is_a($attribute, 'DateTime')) {
                 $value = $attribute->format('Y-m-d H:i:s');
+            } else if (get_class($attribute) === 'craft\elements\db\MatrixBlockQuery' ||get_class($attribute) === 'craft\elements\db\TagQuery') {
+                $value = $this->elementQuery($attribute);
             } else if (get_parent_class($attribute) === 'craft\elements\db\ElementQuery') {
-                $value = $this->elementQuery($attribute, $entry, $parent);
+                $value = $attribute->ids();
             } else if (is_a($attribute, 'craft\fields\data\SingleOptionFieldData') || is_a($attribute, 'craft\fields\data\MultiOptionsFieldData')) {
                 $value = $attribute->getOptions();
             } else if (is_a($attribute, 'craft\fields\data\ColorData')) {
@@ -75,19 +77,11 @@ class Helper extends Component
     /**
      * Loops through an element query results parsing the attributes for each result
      */
-    protected function elementQuery($query, $entry = null, $parent = null)
+    protected function elementQuery($query)
     {
         $result = [];
         foreach($query->all() AS $element) {
-            if ($parent && $element->id == $parent->id) {
-                $result[] = [
-                    'error' => true,
-                    'msg' => 'Recursive loop blocked.',
-                    'parent' => $parent->id
-                ];
-            } else {
-                $result[] = Plugin::getInstance()->helper->parseAttributes($element, $entry);
-            }
+            $result[] = Plugin::getInstance()->helper->parseAttributes($element);
         }
         
         return $result;
