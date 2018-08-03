@@ -51,8 +51,9 @@ class Helper extends Component
             return [];
             
         foreach ($entry->children->all() AS $child) {
-            $result[$entry->id][] = $this->parseAttributes($child);
-            $this->getDescendants($child, $result);
+            $parsed = $this->parseAttributes($child);
+            $this->getDescendants($child, $parsed);
+            $result['descendants'][] = $parsed;
         }
         
         return $result;

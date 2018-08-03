@@ -11,25 +11,31 @@ class Category extends Component
     /**
      * Get an entry by ID
      */
-    public function id($id)
+    public function id($id, $option = null)
     {
-        $entry = CraftCategory::find()
+        $category = CraftCategory::find()
             ->id($id)
             ->one();
         
-        return Plugin::getInstance()->helper->parseAttributes($entry);
+        if ($option === 'descendants')
+            return $this->getDescendants($category);
+            
+        return Plugin::getInstance()->helper->parseAttributes($category);
     }
     
     /**
      * Get an entry by slug
      */
-    public function slug($slug)
+    public function slug($slug, $option = null)
     {
-        $entry = CraftCategory::find()
+        $category = CraftCategory::find()
             ->slug($slug)
             ->one();
+            
+        if ($option === 'descendants')
+            return $this->getDescendants($category);
         
-        return Plugin::getInstance()->helper->parseAttributes($entry);
+        return Plugin::getInstance()->helper->parseAttributes($category);
     }
     
     /**
@@ -41,10 +47,7 @@ class Category extends Component
         $filter = $request->getParam('filter');
         $order = $request->getParam('order');
         
-        $result = [
-            'categories' => [],
-            'descendants' => []
-        ];
+        $result = [];
         
         $categories = CraftCategory::find();
             
@@ -61,12 +64,30 @@ class Category extends Component
             $categories->orderBy = $order;
 
         // Process each entry
-        $children = [];
         foreach($categories->all() AS $category) {
-            $result['categories'][] = Plugin::getInstance()->helper->parseAttributes($category);
-            Plugin::getInstance()->helper->getDescendants($category, $children);
+            $parsed = Plugin::getInstance()->helper->parseAttributes($category);
+            Plugin::getInstance()->helper->getDescendants($category, $parsed);
+            $result[] = $parsed;
         }
-        $result['descendants'] = $children;
+        
+        return $result;
+    }
+    
+    /**
+     * Get all the categories the next level down
+     */
+    protected function getDescendants($parent)
+    {
+        $level = $parent->level + 1;
+        
+        $categories = CraftCategory::find()
+            ->descendantOf($parent->id)
+            ->level($level);
+            
+        $result = [];
+        foreach($categories->all() AS $category) {
+            $result[] = Plugin::getInstance()->helper->parseAttributes($category);
+        }
         
         return $result;
     }

@@ -11,23 +11,29 @@ class Entry extends Component
     /**
      * Get an entry by ID
      */
-    public function id($id)
+    public function id($id, $option = null)
     {
         $entry = CraftEntry::find()
             ->id($id)
             ->one();
         
+        if ($option === 'descendants')
+            return $this->getDescendants($entry);
+            
         return Plugin::getInstance()->helper->parseAttributes($entry);
     }
     
     /**
      * Get an entry by slug
      */
-    public function slug($slug)
+    public function slug($slug, $option = null)
     {
         $entry = CraftEntry::find()
             ->slug($slug)
             ->one();
+            
+        if ($option === 'descendants')
+            return $this->getDescendants($entry);
         
         return Plugin::getInstance()->helper->parseAttributes($entry);
     }
@@ -61,13 +67,31 @@ class Entry extends Component
         $result = $page ? Plugin::getInstance()->helper->paginate($entries, $page, $perPage) : [];
         
         // Process each entry
-        $result['entries'] = [];
-        $children = [];
+        $result = [];
         foreach($entries->all() AS $entry) {
-            $result['entries'][] = Plugin::getInstance()->helper->parseAttributes($entry);
-            Plugin::getInstance()->helper->getDescendants($entry, $children);
+            $parsed = Plugin::getInstance()->helper->parseAttributes($entry);
+            Plugin::getInstance()->helper->getDescendants($entry, $parsed);
+            $result[] = $parsed;
         }
-        $result['descendants'] = $children;
+        
+        return $result;
+    }
+    
+    /**
+     * Get all the entries the next level down
+     */
+    protected function getDescendants($parent)
+    {
+        $level = $parent->level + 1;
+        
+        $entries = CraftEntry::find()
+            ->descendantOf($parent->id)
+            ->level($level);
+            
+        $result = [];
+        foreach($entries->all() AS $entry) {
+            $result[] = Plugin::getInstance()->helper->parseAttributes($entry);
+        }
         
         return $result;
     }
