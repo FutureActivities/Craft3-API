@@ -26,8 +26,20 @@ class Helper extends Component
                 $value = $this->elementQuery($attribute);
             } else if (get_parent_class($attribute) === 'craft\elements\db\ElementQuery') {
                 $value = $attribute->ids();
-            } else if (is_a($attribute, 'craft\fields\data\SingleOptionFieldData') || is_a($attribute, 'craft\fields\data\MultiOptionsFieldData')) {
-                $value = $attribute->getOptions();
+            } else if (is_a($attribute, 'craft\fields\data\SingleOptionFieldData')) {
+                $options = $attribute->getOptions();
+                foreach ($options AS $option) {
+                    if (!$option->selected) continue;
+                    $value = $option;
+                }
+            } else if (is_a($attribute, 'craft\fields\data\MultiOptionsFieldData')) {
+                $options = $attribute->getOptions();
+                $selected = [];
+                foreach ($options AS $option) {
+                    if (!$option->selected) continue;
+                    $selected[] = $option;
+                }
+                $value = $selected;
             } else if (is_a($attribute, 'craft\fields\data\ColorData')) {
                 $value = $attribute->getHex();
             } else if (is_a($attribute, 'craft\redactor\FieldData')) {
