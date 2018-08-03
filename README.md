@@ -7,7 +7,7 @@ No need to configure anything as it will automatically start working.
 Please be aware that this could be used to get information you may not want people to see, such
 as certain fields or entries restricted to certain users.
 
-**This is a work in progress**
+**This is a work in progress - please do not use.**
 
 ## Entries
 
@@ -62,12 +62,6 @@ Get all entries after a specific post date:
 Get all entries related to a category:
 
     api/entry/collection?filter[0][field]=relatedTo&filter[0][value][sourceElement]=100&filter[0][value][field]=category
-    
-#### Ordering
-
-To order the results, include an order parameter such as the following:
-
-    api/collection?order=postDate DESC
 
 ## Categories
 
