@@ -47,7 +47,6 @@ class Entry extends Component
         $page = (int)$request->getParam('page');
         $perPage = (int)$request->getParam('perPage') ?: 10;
         $filter = $request->getParam('filter');
-        $order = $request->getParam('order');
         
         $entries = CraftEntry::find();
             
@@ -58,10 +57,6 @@ class Entry extends Component
                 $entries->$field = $f['value'];
             }
         }
-        
-        // Set the sort order
-        if ($order)
-            $entries->orderBy = $order;
         
         // Handle any pagination
         $result = $page ? Plugin::getInstance()->helper->paginate($entries, $page, $perPage) : [];

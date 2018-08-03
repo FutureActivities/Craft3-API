@@ -22,7 +22,7 @@ class Helper extends Component
                 $value = $attribute;
             } else if (is_a($attribute, 'DateTime')) {
                 $value = $attribute->format('Y-m-d H:i:s');
-            } else if (get_class($attribute) === 'craft\elements\db\MatrixBlockQuery' ||get_class($attribute) === 'craft\elements\db\TagQuery') {
+            } else if (get_class($attribute) === 'craft\elements\db\MatrixBlockQuery' || get_class($attribute) === 'craft\elements\db\TagQuery') {
                 $value = $this->elementQuery($attribute);
             } else if (get_parent_class($attribute) === 'craft\elements\db\ElementQuery') {
                 $value = $attribute->ids();
@@ -82,7 +82,12 @@ class Helper extends Component
     {
         $result = [];
         foreach($query->all() AS $element) {
-            $result[] = Plugin::getInstance()->helper->parseAttributes($element);
+            $parsed = Plugin::getInstance()->helper->parseAttributes($element);
+            
+            if (isset($element->type) && isset($element->type->handle))
+                $parsed['handle'] = $element->type->handle;
+            
+            $result[] = $parsed;
         }
         
         return $result;

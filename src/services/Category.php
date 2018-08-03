@@ -45,7 +45,6 @@ class Category extends Component
     {
         $request = \Craft::$app->getRequest();
         $filter = $request->getParam('filter');
-        $order = $request->getParam('order');
         
         $result = [];
         
@@ -58,10 +57,6 @@ class Category extends Component
                 $categories->$field = $f['value'];
             }
         }
-        
-        // Set the sort order
-        if ($order)
-            $categories->orderBy = $order;
 
         // Process each entry
         foreach($categories->all() AS $category) {
