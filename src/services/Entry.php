@@ -54,7 +54,7 @@ class Entry extends Component
         // Apply any filters
         if ($filter) {
             foreach($filter AS $f) {
-                $field = $f['field'];
+                $field = $f['attribute_code'];
                 $entries->$field = $f['value'];
             }
         }
