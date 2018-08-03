@@ -1,6 +1,11 @@
 # Future Activities Craft 3 API
 
-This plugin provides useful API endpoints.
+This plugin provides useful API endpoints for getting entries and categories.
+
+No need to configure anything as it will automatically start working.
+
+Please be aware that this could be used to get information you may not want people to see, such
+as certain fields or entries restricted to certain users.
 
 **This is a work in progress**
 
