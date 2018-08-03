@@ -42,7 +42,7 @@ class Category extends Component
         $order = $request->getParam('order');
         
         $result = [
-            'entries' => [],
+            'categories' => [],
             'descendants' => []
         ];
         
@@ -58,12 +58,12 @@ class Category extends Component
         
         // Set the sort order
         if ($order)
-            $entries->orderBy = $order;
+            $categories->orderBy = $order;
 
         // Process each entry
         $children = [];
         foreach($categories->all() AS $category) {
-            $result['entries'][] = Plugin::getInstance()->helper->parseAttributes($category);
+            $result['categories'][] = Plugin::getInstance()->helper->parseAttributes($category);
             Plugin::getInstance()->helper->getDescendants($category, $children);
         }
         $result['descendants'] = $children;

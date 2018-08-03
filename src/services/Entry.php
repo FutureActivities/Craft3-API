@@ -42,7 +42,7 @@ class Entry extends Component
         $perPage = (int)$request->getParam('perPage') ?: 10;
         $filter = $request->getParam('filter');
         $order = $request->getParam('order');
-
+        
         $entries = CraftEntry::find();
             
         // Apply any filters
