@@ -11,31 +11,31 @@ class Category extends Component
     /**
      * Get an entry by ID
      */
-    public function id($id, $option = null)
+    public function id($id)
     {
         $category = CraftCategory::find()
             ->id($id)
             ->one();
         
-        if ($option === 'descendants')
-            return $this->getDescendants($category);
-            
-        return Plugin::getInstance()->helper->parseAttributes($category);
+        $parsed = Plugin::getInstance()->helper->parseAttributes($category);
+        Plugin::getInstance()->helper->getDescendants($category, $parsed);
+        
+        return $parsed;
     }
     
     /**
      * Get an entry by slug
      */
-    public function slug($slug, $option = null)
+    public function slug($slug)
     {
         $category = CraftCategory::find()
             ->slug($slug)
             ->one();
             
-        if ($option === 'descendants')
-            return $this->getDescendants($category);
+        $parsed = Plugin::getInstance()->helper->parseAttributes($category);
+        Plugin::getInstance()->helper->getDescendants($category, $parsed);
         
-        return Plugin::getInstance()->helper->parseAttributes($category);
+        return $parsed;
     }
     
     /**

@@ -11,31 +11,31 @@ class Entry extends Component
     /**
      * Get an entry by ID
      */
-    public function id($id, $option = null)
+    public function id($id)
     {
         $entry = CraftEntry::find()
             ->id($id)
             ->one();
-        
-        if ($option === 'descendants')
-            return $this->getDescendants($entry);
             
-        return Plugin::getInstance()->helper->parseAttributes($entry);
+        $parsed = Plugin::getInstance()->helper->parseAttributes($entry);
+        Plugin::getInstance()->helper->getDescendants($entry, $parsed);
+        
+        return $parsed;
     }
     
     /**
      * Get an entry by slug
      */
-    public function slug($slug, $option = null)
+    public function slug($slug)
     {
         $entry = CraftEntry::find()
             ->slug($slug)
             ->one();
-            
-        if ($option === 'descendants')
-            return $this->getDescendants($entry);
         
-        return Plugin::getInstance()->helper->parseAttributes($entry);
+        $parsed = Plugin::getInstance()->helper->parseAttributes($entry);
+        Plugin::getInstance()->helper->getDescendants($entry, $parsed);
+        
+        return $parsed;
     }
     
     /**
