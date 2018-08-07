@@ -28,7 +28,7 @@ class Plugin extends \craft\base\Plugin
         // Register service classes
         $this->setComponents([
             'helper' => \futureactivities\api\services\Helper::class,
-            'search' => \futureactivities\api\services\Helper::class,
+            'fields' => \futureactivities\api\services\Fields::class,
             'entry' => \futureactivities\api\services\Entry::class,
             'category' => \futureactivities\api\services\Category::class,
         ]);
