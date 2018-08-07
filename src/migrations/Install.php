@@ -16,7 +16,7 @@ class Install extends Migration
             $this->createTable('{{%usertokens}}', [
                 'id' => $this->primaryKey(),
                 'token' => $this->text(),
-                'customerId' => $this->integer()->notNull(),
+                'userId' => $this->integer()->notNull(),
                 'dateCreated' => $this->dateTime()->notNull(),
                 'dateUpdated' => $this->dateTime()->notNull(),
                 'uid' => $this->uid(),

@@ -29,7 +29,7 @@ class UserAuth extends Component
             throw new \Exception('Invalid token.');
         
         // Find the customer
-        $user = \Craft::$app->users->getUserById($tokenRecord->customerId);
+        $user = \Craft::$app->users->getUserById($tokenRecord->userId);
         if (!$user)
             throw new \Exception('Invalid token.');
         
@@ -43,13 +43,13 @@ class UserAuth extends Component
     {
         $token = bin2hex(random_bytes(16));
         
-        $userTokenRecord = UserTokenRecord::find()->where(['customerId' => $userId])->one();
+        $userTokenRecord = UserTokenRecord::find()->where(['userId' => $userId])->one();
         
         if (!$userTokenRecord)
             $userTokenRecord = new UserTokenRecord();
         
         $userTokenRecord->token = $token;
-        $userTokenRecord->customerId = $userId;
+        $userTokenRecord->userId = $userId;
         $userTokenRecord->save();
         
         return $token;
