@@ -51,11 +51,8 @@ class UserController extends Controller
      */
     public function actionRequest($method, $params = null)
     {
-        // Check authorisation
-        $user = Plugin::getInstance()->userAuth->auth();
-        
         $params = explode('/', $params);
-        $result = Plugin::getInstance()->user->$method($user, ...$params);
+        $result = Plugin::getInstance()->user->$method(...$params);
         
         return $this->asJson($result);
     }

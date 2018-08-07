@@ -86,10 +86,47 @@ To make requests about users you must first authenticate as a user and receive a
     
 Sending a `username` and `password` on the POST request body.
 
-All user requests expects an authorization header like:
-
-    Bearer <token>
-
 ### Get Account
 
     GET /api/user/account
+    
+Expects an authorization header like:
+
+    Bearer <token>
+    
+### Register User
+
+    POST /api/user/register
+    
+With a POST body like:
+
+    {
+        customer: {
+            firstname: '',
+            lastname: '',
+            email: ''
+        },
+        password: ''
+    }
+    
+### Send Password Reset Link
+
+    POST /api/user/sendPasswordReset
+    
+With a POST body like: 
+
+    {
+        username: ''
+    }
+    
+### Do Password Reset
+
+    POST /api/user/doPasswordReset
+    
+With a POST body like:
+
+    {
+        code: '',
+        id: '',
+        newPassword: ''
+    }
