@@ -16,8 +16,12 @@ class Plugin extends \craft\base\Plugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['api/<service>/<method>'] = 'fa-api/api/request';
-                $event->rules['api/<service>/<method>/<params:.+>'] = 'fa-api/api/request';
+                
+                $event->rules['api/entry/<method>'] = 'fa-api/api/entry';
+                $event->rules['api/entry/<method>/<params:.+>'] = 'fa-api/api/entry';
+                
+                $event->rules['api/category/<method>'] = 'fa-api/api/category';
+                $event->rules['api/category/<method>/<params:.+>'] = 'fa-api/api/category';
             }
         );
         

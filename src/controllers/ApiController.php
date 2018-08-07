@@ -9,11 +9,19 @@ use futureactivities\api\Plugin;
 class ApiController extends Controller
 {
     protected $allowAnonymous = true;
-
-    public function actionRequest($service, $method, $params = null)
+    
+    public function actionEntry($method, $params = null)
     {
-        if ($service == 'helper') return;
-        
+        $this->processRequest('entry', $method, $params);
+    }
+    
+    public function actionCategory($method, $params = null)
+    {
+        $this->processRequest('category', $method, $params);
+    }
+
+    protected function processRequest($service, $method, $params = null)
+    {
         $params = explode('/', $params);
         $cacheId = sha1(\Craft::$app->getRequest()->getQueryString());
         
