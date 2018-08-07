@@ -1,6 +1,6 @@
 # Future Activities Craft 3 API
 
-This plugin provides useful API endpoints for getting entries and categories.
+This plugin attempts to create a RESTful API for Craft 3.
 
 No need to configure anything as it will automatically start working.
 
