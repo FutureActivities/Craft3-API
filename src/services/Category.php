@@ -10,6 +10,8 @@ class Category extends Component
 {
     /**
      * Get an entry by ID
+     * 
+     * @cache
      */
     public function id($id)
     {
@@ -25,6 +27,8 @@ class Category extends Component
     
     /**
      * Get an entry by slug
+     * 
+     * @cache
      */
     public function slug($slug)
     {
@@ -40,6 +44,8 @@ class Category extends Component
     
     /**
      * Get collection of categories
+     * 
+     * @cache
      */
     public function collection()
     {

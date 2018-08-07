@@ -23,9 +23,8 @@ class Plugin extends \craft\base\Plugin
                 $event->rules['api/category/<method>'] = 'fa-api/api/category';
                 $event->rules['api/category/<method>/<params:.+>'] = 'fa-api/api/category';
                 
-                $event->rules['api/user/token'] = 'fa-api/user/token';
-                $event->rules['api/user/<method>'] = 'fa-api/user/request';
-                $event->rules['api/user/<method>/<params:.+>'] = 'fa-api/user/request';
+                $event->rules['api/user/<method>'] = 'fa-api/api/user';
+                $event->rules['api/user/<method>/<params:.+>'] = 'fa-api/api/user';
             }
         );
         

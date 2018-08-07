@@ -9,6 +9,41 @@ use futureactivities\api\Plugin;
 class User extends Component
 {
     /**
+     * Verify user credentials and generate an access token
+     */
+    public function token()
+    {
+        $request = \Craft::$app->request;
+        
+        if (!$request->isPost)
+            throw new \Exception('Invalid Request.');
+        
+        if (!$request->getParam('username') || !$request->getParam('password')) 
+            throw new \Exception('Missing required parameter');
+        
+        $loginName = $request->getParam('username');
+        $password = $request->getParam('password');
+        
+        $user = \Craft::$app->getUsers()->getUserByUsernameOrEmail($loginName);
+        
+        if (!$user || $user->password === null)
+            throw new \Exception('Invalid user and/or password.');
+            
+        if (!$user->authenticate($password)) {
+            \Craft::$app->users->handleInvalidLogin($user);
+            throw new \Exception('Invalid user and/or password.');
+        }
+        
+        \Craft::$app->users->handleValidLogin($user);
+        
+        $token = Plugin::getInstance()->userAuth->generateToken($user->id);
+        
+        return [
+            'token' => $token 
+        ];
+    }
+    
+    /**
      * Get a users account details
      */
     public function account()
