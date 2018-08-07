@@ -15,9 +15,9 @@ as certain fields or entries restricted to certain users.
 
     GET /api/entry/id/:id
     
-### Get by SKU
+### Get by Slug
 
-    GET /api/entry/sku/:sku
+    GET /api/entry/slug/:slug
 
 ### Get Collection
 
@@ -69,9 +69,9 @@ Get all entries related to a category:
 
     GET /api/category/id/:id
     
-### Get by SKU
+### Get by Slug
 
-    GET /api/category/sku/:sku
+    GET /api/category/slug/:slug
 
 ### Get Collection
     GET /api/category/collection
