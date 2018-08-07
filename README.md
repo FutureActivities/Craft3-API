@@ -75,3 +75,21 @@ Get all entries related to a category:
 
 ### Get Collection
     GET /api/category/collection
+    
+## Users
+
+To make requests about users you must first authenticate as a user and receive a token.
+
+### Get Authentication Token
+
+    POST /api/user/token
+    
+Sending a `username` and `password` on the POST request body.
+
+All user requests expects an authorization header like:
+
+    Bearer <token>
+
+### Get Account
+
+    GET /api/user/account
