@@ -4,6 +4,7 @@ namespace futureactivities\api\services;
 use yii\base\Component;
 use craft\elements\Entry AS CraftEntry;
 
+use futureactivities\api\errors\ApiException;
 use futureactivities\api\Plugin;
 
 class Entry extends Component
@@ -18,6 +19,9 @@ class Entry extends Component
         $entry = CraftEntry::find()
             ->id($id)
             ->one();
+            
+        if (!$entry)
+            throw new ApiException('Entry not found');
             
         $parsed = Plugin::getInstance()->helper->parseAttributes($entry);
         Plugin::getInstance()->helper->getDescendants($entry, $parsed);
@@ -35,6 +39,9 @@ class Entry extends Component
         $entry = CraftEntry::find()
             ->slug($slug)
             ->one();
+            
+        if (!$entry)
+            throw new ApiException('Entry not found');
         
         $parsed = Plugin::getInstance()->helper->parseAttributes($entry);
         Plugin::getInstance()->helper->getDescendants($entry, $parsed);

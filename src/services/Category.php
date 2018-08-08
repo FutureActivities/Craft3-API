@@ -4,6 +4,7 @@ namespace futureactivities\api\services;
 use yii\base\Component;
 use craft\elements\Category AS CraftCategory;
 
+use futureactivities\api\errors\ApiException;
 use futureactivities\api\Plugin;
 
 class Category extends Component
@@ -18,6 +19,9 @@ class Category extends Component
         $category = CraftCategory::find()
             ->id($id)
             ->one();
+            
+        if (!$category)
+            throw new ApiException('Category not found');
         
         $parsed = Plugin::getInstance()->helper->parseAttributes($category);
         Plugin::getInstance()->helper->getDescendants($category, $parsed);
@@ -35,6 +39,9 @@ class Category extends Component
         $category = CraftCategory::find()
             ->slug($slug)
             ->one();
+        
+        if (!$category)
+            throw new ApiException('Category not found');
             
         $parsed = Plugin::getInstance()->helper->parseAttributes($category);
         Plugin::getInstance()->helper->getDescendants($category, $parsed);
@@ -63,7 +70,7 @@ class Category extends Component
                 $categories->$field = $f['value'];
             }
         }
-
+        
         // Process each entry
         foreach($categories->all() AS $category) {
             $parsed = Plugin::getInstance()->helper->parseAttributes($category);

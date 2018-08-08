@@ -4,6 +4,7 @@ namespace futureactivities\api\controllers;
 use Craft;
 use craft\web\Controller;
 
+use futureactivities\api\errors\ApiException;
 use futureactivities\api\Plugin;
 
 class ApiController extends Controller
@@ -43,8 +44,13 @@ class ApiController extends Controller
         if ($cache && \Craft::$app->config->general->cacheElementQueries && $result = \Craft::$app->cache->get($cacheId))
             return json_decode($result);
 
-        // Run method
-        $result = Plugin::getInstance()->$service->$method(...$params);
+        // Attempt to run method
+        try {
+            $result = Plugin::getInstance()->$service->$method(...$params);
+        } catch (ApiException $e) {
+            \Craft::$app->response->setStatusCode(400);
+            return $e;
+        }
         
         if ($cache)
             \Craft::$app->cache->set($cacheId, json_encode($result));

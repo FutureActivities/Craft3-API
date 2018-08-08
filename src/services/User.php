@@ -4,6 +4,7 @@ namespace futureactivities\api\services;
 use yii\base\Component;
 use craft\elements\User AS UserElement;
 
+use futureactivities\api\errors\ApiException;
 use futureactivities\api\Plugin;
 
 class User extends Component
@@ -16,10 +17,10 @@ class User extends Component
         $request = \Craft::$app->request;
         
         if (!$request->isPost)
-            throw new \Exception('Invalid Request.');
+            throw new ApiException('Invalid Request.');
         
         if (!$request->getParam('username') || !$request->getParam('password')) 
-            throw new \Exception('Missing required parameter');
+            throw new ApiException('Missing required parameter');
         
         $loginName = $request->getParam('username');
         $password = $request->getParam('password');
@@ -27,11 +28,11 @@ class User extends Component
         $user = \Craft::$app->getUsers()->getUserByUsernameOrEmail($loginName);
         
         if (!$user || $user->password === null)
-            throw new \Exception('Invalid user and/or password.');
+            throw new ApiException('Invalid user and/or password.');
             
         if (!$user->authenticate($password)) {
             \Craft::$app->users->handleInvalidLogin($user);
-            throw new \Exception('Invalid user and/or password.');
+            throw new ApiException('Invalid user and/or password.');
         }
         
         \Craft::$app->users->handleValidLogin($user);
@@ -61,7 +62,7 @@ class User extends Component
         $request = \Craft::$app->request;
         
         if (!$request->isPost)
-            throw new \Exception('Invalid request.');
+            throw new ApiException('Invalid request.');
             
         $customerData = $request->getBodyParam('customer');
         
@@ -81,12 +82,12 @@ class User extends Component
     public function sendPasswordReset()
     {
         if (!\Craft::$app->request->isPost)
-            throw new \Exception('Invalid request.');
+            throw new ApiException('Invalid request.');
             
         $loginName = \Craft::$app->getRequest()->getBodyParam('username');
         $user = \Craft::$app->getUsers()->getUserByUsernameOrEmail($loginName);
         if (!$user)
-            throw new \Exception('Invalid user.');
+            throw new ApiException('Invalid user.');
         
         return \Craft::$app->getUsers()->sendPasswordResetEmail($user);
     }
@@ -97,7 +98,7 @@ class User extends Component
     public function doPasswordReset()
     {
         if (!\Craft::$app->request->isPost)
-            throw new \Exception('Invalid request.');
+            throw new ApiException('Invalid request.');
         
         $code = \Craft::$app->getRequest()->getRequiredBodyParam('code');
         $uid = \Craft::$app->getRequest()->getRequiredParam('id');
@@ -105,7 +106,7 @@ class User extends Component
         $isCodeValid = \Craft::$app->getUsers()->isVerificationCodeValidForUser($userToProcess, $code);
 
         if (!$userToProcess || !$isCodeValid)
-            throw new \Exception('Invalid password reset token.');
+            throw new ApiException('Invalid password reset token.');
             
         $userToProcess->newPassword = \Craft::$app->getRequest()->getRequiredBodyParam('newPassword');
         $userToProcess->setScenario(UserElement::SCENARIO_PASSWORD);
