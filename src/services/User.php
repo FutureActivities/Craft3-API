@@ -20,7 +20,7 @@ class User extends Component
             throw new ApiException('Invalid Request.');
         
         if (!$request->getParam('username') || !$request->getParam('password')) 
-            throw new ApiException('Missing required parameter');
+            throw new ApiException('Missing required field');
         
         $loginName = $request->getParam('username');
         $password = $request->getParam('password');
@@ -69,13 +69,14 @@ class User extends Component
         $user = new UserElement();
         $user->username = isset($customerData['username']) ? $customerData['username'] : $customerData['email'];
         
-        foreach ($customerData AS $key => $value)
+        foreach($customerData AS $key => $value)
             $user->$key = $value;
         
         if ($password = $request->getBodyParam('password'))
             $user->newPassword = $password;
         
-        \Craft::$app->elements->saveElement($user);
+        if (!\Craft::$app->elements->saveElement($user))
+            throw new ApiException('Please correct any errors and try again.', $user->getErrors());
     }
     
     /**
