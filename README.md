@@ -86,6 +86,10 @@ To make requests about users you must first authenticate as a user and receive a
     
 Sending a `username` and `password` on the POST request body.
 
+### Verify authentication token
+
+    GET /api/user/verifyToken/:token
+
 ### Get Account
 
     GET /api/user/account

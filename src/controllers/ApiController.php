@@ -48,7 +48,7 @@ class ApiController extends Controller
         try {
             $result = Plugin::getInstance()->$service->$method(...$params);
         } catch (ApiException $e) {
-            \Craft::$app->response->setStatusCode(400);
+            \Craft::$app->response->setStatusCode($e->getStatus());
             return $e;
         }
         

@@ -6,12 +6,14 @@ use yii\base\Exception;
 class ApiException extends Exception implements \JsonSerializable
 {
     private $data = [];
+    private $status = 400;
 
-    public function __construct($message, $data = []) 
+    public function __construct($message, $data = [], $status = 400) 
     {
         parent::__construct($message);
         
         $this->data = $data;
+        $this->status = $status;
     }    
     
     /**
@@ -28,6 +30,14 @@ class ApiException extends Exception implements \JsonSerializable
     public function getData()
     {
         return $this->data;
+    }
+    
+    /**
+     * @return int status code
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
     
     /**

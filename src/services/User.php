@@ -45,13 +45,36 @@ class User extends Component
     }
     
     /**
-     * Get a users account details
+     * Check if an authentication token is valid
+     */
+    public function verifyToken($token)
+    {
+        return Plugin::getInstance()->userAuth->verifyToken($token);
+    }
+    
+    /**
+     * GET return a users account details
+     * PUT update a users account
      */
     public function account()
     {
         $user = Plugin::getInstance()->userAuth->auth();
+        $request = \Craft::$app->request;
         
-        return Plugin::getInstance()->helper->parseAttributes($user);
+        if ($request->isGet)
+            return Plugin::getInstance()->helper->parseAttributes($user);
+            
+        if ($request->isPut) {
+            $customerData = json_decode($request->getRawBody(), true);
+            foreach($customerData['customer'] AS $key => $value)
+                $user->$key = $value;
+                
+            if (isset($customerData['password']))
+                $user->newPassword = $customerData['password'];
+            
+            if (!\Craft::$app->elements->saveElement($user))
+                throw new ApiException('Please correct any errors and try again.', $user->getErrors());
+        }
     }
     
     /**
