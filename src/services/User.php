@@ -68,9 +68,10 @@ class User extends Component
         
         $user = new UserElement();
         $user->username = isset($customerData['username']) ? $customerData['username'] : $customerData['email'];
-        $user->firstName = $customerData['firstname'];
-        $user->lastName = $customerData['lastname'];
-        $user->email = $customerData['email'];
+        
+        foreach ($customerData AS $key => $value)
+            $user->$key = $value;
+        
         $user->newPassword = $request->getBodyParam('password');
         
         \Craft::$app->elements->saveElement($user);

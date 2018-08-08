@@ -102,8 +102,8 @@ With a POST body like:
 
     {
         customer: {
-            firstname: '',
-            lastname: '',
+            firstName: '',
+            lastName: '',
             email: ''
         },
         password: ''
