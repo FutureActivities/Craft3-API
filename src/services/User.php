@@ -72,7 +72,8 @@ class User extends Component
         foreach ($customerData AS $key => $value)
             $user->$key = $value;
         
-        $user->newPassword = $request->getBodyParam('password');
+        if ($password = $request->getBodyParam('password'))
+            $user->newPassword = $password;
         
         \Craft::$app->elements->saveElement($user);
     }
