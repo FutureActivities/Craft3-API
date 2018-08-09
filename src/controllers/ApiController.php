@@ -26,6 +26,11 @@ class ApiController extends Controller
         return $this->asJson($this->processRequest('user', $method, $params));
     }
     
+    public function actionGeneral($method, $params = null)
+    {
+        return $this->asJson($this->processRequest('general', $method, $params));
+    }
+    
     protected function processRequest($service, $method, $params = null)
     {
         $params = explode('/', $params);
