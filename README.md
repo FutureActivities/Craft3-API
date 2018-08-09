@@ -141,6 +141,6 @@ With a POST body like:
 
 ### Get details about a URI
 
-    GET /api/general/uri/:uri
+    GET /api/general/uri?uri=:uri
 
 This will return the element type and ID

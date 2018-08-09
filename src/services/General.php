@@ -13,8 +13,9 @@ class General extends Component
      * 
      * @cache
      */
-    public function uri($uri)
+    public function uri()
     {
+        $uri = \Craft::$app->request->getParam('uri');
         $element = \Craft::$app->elements->getElementByUri($uri);
         
         if (!$element)
