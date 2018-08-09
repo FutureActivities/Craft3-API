@@ -20,6 +20,9 @@ class Fields extends Component
         
         if (is_a($field, 'DateTime'))
             return $field->format('Y-m-d H:i:s');
+         
+        if (get_class($field) == 'craft\elements\db\EntryQuery')
+            return $field->ids();
         
         if (get_parent_class($field) === 'craft\elements\db\ElementQuery')
             return $this->elementQuery($field, $level);
