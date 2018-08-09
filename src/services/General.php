@@ -22,9 +22,14 @@ class General extends Component
         
         $reflect = new \ReflectionClass($element);
         
-        return [
+        $result = [
             'id' => $element->id,
-            'type' => strtolower($reflect->getShortName())
+            'type' => strtolower($reflect->getShortName()),
         ];
+        
+        if (isset($element->type))
+            $result['handle'] = $element->type->handle;
+        
+        return $result;
     }
 }
