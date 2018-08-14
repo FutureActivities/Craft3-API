@@ -2,12 +2,16 @@
 namespace futureactivities\api\services;
 
 use yii\base\Component;
+use yii\base\Event;
 use craft\elements\Entry AS CraftEntry;
+use futureactivities\api\events\AttributeEvent;
 
 use futureactivities\api\Plugin;
 
 class Helper extends Component
 {
+    const EVENT_AFTER_PARSE_ATTRIBUTES = 'afterParseAttributes';
+    
     /**
      * Parse an entries attributes converting them into a more usable format
      */
@@ -19,7 +23,14 @@ class Helper extends Component
             $result[$key] = Plugin::getInstance()->fields->process($attribute);
         }
         
-        return $result;
+        // Fire event
+        $event = new AttributeEvent([
+            'entry' => $entry,
+            'attributes' => $result
+        ]);
+        $this->trigger(self::EVENT_AFTER_PARSE_ATTRIBUTES, $event);
+        
+        return $event->attributes;
     }
     
     /**

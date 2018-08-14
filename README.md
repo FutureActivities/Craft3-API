@@ -144,3 +144,18 @@ With a POST body like:
     GET /api/general/uri?uri=:uri
 
 This will return the element type and ID
+
+## Events
+
+### After Parse Attributes
+
+This is fired after an entry or categories fields are parsed.
+Allowing you to modify any values as needed in the response.
+
+    use futureactivities\api\services\Helper;
+    use futureactivities\api\events\AttributeEvent;
+
+    Event::on(Helper::class, Helper::EVENT_AFTER_PARSE_ATTRIBUTES, function(AttributeEvent $e) {
+        $entry = $e->entry;
+        $attributes = $e->attributes;
+    });
