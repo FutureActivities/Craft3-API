@@ -9,6 +9,13 @@ class Plugin extends \craft\base\Plugin
 {
     public function init()
     {
+        // Set the controllerNamespace based on whether this is a console or web request
+        if (\Craft::$app->getRequest()->getIsConsoleRequest()) {
+            $this->controllerNamespace = 'futureactivities\\api\\console\\controllers';
+        } else {
+            $this->controllerNamespace = 'futureactivities\\api\\controllers';
+        }
+        
         parent::init();
 
         // Register our site routes

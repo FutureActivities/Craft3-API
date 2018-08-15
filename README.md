@@ -159,3 +159,14 @@ Allowing you to modify any values as needed in the response.
         $entry = $e->entry;
         $attributes = $e->attributes;
     });
+    
+## Cron
+
+### Expiring tokens
+
+Out of the box, user authentication tokens will never expire. To expire tokens, setup a cron job running
+the following command:
+
+    ./craft fa-api/token/expire <seconds>
+    
+`<seconds>` is optional. Default is 3600 seconds (1 hour).
