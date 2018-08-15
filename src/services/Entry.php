@@ -71,6 +71,8 @@ class Entry extends Component
             }
         }
         
+        $totalEntries = $entries->count();
+        
         // Handle any pagination
         $result = $page ? Plugin::getInstance()->helper->paginate($entries, $page, $perPage) : [];
         
@@ -82,7 +84,10 @@ class Entry extends Component
             $result[] = $parsed;
         }
         
-        return $result;
+        return [
+            'collection' => $result,
+            'total' => $totalEntries
+        ];
     }
     
     /**
