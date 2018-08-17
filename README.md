@@ -137,6 +137,10 @@ With a POST body like:
         newPassword: ''
     }
     
+### Update Account
+
+    PUT /api/user/account
+    
 ## General
 
 ### Get details about a URI
