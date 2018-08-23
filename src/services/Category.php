@@ -23,10 +23,7 @@ class Category extends Component
         if (!$category)
             throw new ApiException('Category not found');
         
-        $parsed = Plugin::getInstance()->helper->parseAttributes($category);
-        Plugin::getInstance()->helper->getDescendants($category, $parsed);
-        
-        return $parsed;
+        return $this->processCategory($category);
     }
     
     /**
@@ -43,10 +40,7 @@ class Category extends Component
         if (!$category)
             throw new ApiException('Category not found');
             
-        $parsed = Plugin::getInstance()->helper->parseAttributes($category);
-        Plugin::getInstance()->helper->getDescendants($category, $parsed);
-        
-        return $parsed;
+        return $this->processCategory($category);
     }
     
     /**
@@ -73,30 +67,24 @@ class Category extends Component
         
         // Process each entry
         foreach($categories->all() AS $category) {
-            $parsed = Plugin::getInstance()->helper->parseAttributes($category);
-            Plugin::getInstance()->helper->getDescendants($category, $parsed);
-            $result[] = $parsed;
+            $result[] = $this->processCategory($category);
         }
         
         return $result;
     }
     
-    /**
-     * Get all the categories the next level down
-     */
-    protected function getDescendants($parent)
+    protected function processCategory($category)
     {
-        $level = $parent->level + 1;
+        // Parse the category attributes
+        $parsed = Plugin::getInstance()->helper->parseAttributes($category);
         
-        $categories = CraftCategory::find()
-            ->descendantOf($parent->id)
-            ->level($level);
+        // Add parent ID to result if applicable
+        if ($category->parent)
+            $parsed['parentId'] = $category->parent->id;
             
-        $result = [];
-        foreach($categories->all() AS $category) {
-            $result[] = Plugin::getInstance()->helper->parseAttributes($category);
-        }
+        // Add the descendants if applicable
+        Plugin::getInstance()->helper->getDescendants($category, $parsed);
         
-        return $result;
+        return $parsed;
     }
 }

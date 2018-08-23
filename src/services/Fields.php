@@ -15,7 +15,7 @@ class Fields extends Component
      */
     public function process($field, $level = 1)
     {
-        if (is_null($field) || is_string($field) || is_bool($field) || is_int($field) || is_array($field))
+        if (is_null($field) || is_string($field) || is_bool($field) || is_numeric($field) || is_array($field))
             return $field;
         
         if (is_a($field, 'DateTime'))
