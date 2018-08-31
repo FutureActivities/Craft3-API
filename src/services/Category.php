@@ -52,6 +52,7 @@ class Category extends Component
     {
         $request = \Craft::$app->getRequest();
         $filter = $request->getParam('filter');
+        $response = $request->getParam('response');
         
         $result = [];
         
@@ -64,6 +65,10 @@ class Category extends Component
                 $categories->$field = $f['value'];
             }
         }
+        
+        // Custom output? E.g. ids, count, etc.
+        if ($response)
+            return $categories->$response();
         
         // Process each entry
         foreach($categories->all() AS $category) {

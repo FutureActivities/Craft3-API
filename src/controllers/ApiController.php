@@ -21,6 +21,11 @@ class ApiController extends Controller
         return $this->asJson($this->processRequest('category', $method, $params));
     }
     
+    public function actionTag($method, $params = null)
+    {
+        return $this->asJson($this->processRequest('tag', $method, $params));
+    }
+    
     public function actionUser($method, $params = null)
     {
         return $this->asJson($this->processRequest('user', $method, $params));

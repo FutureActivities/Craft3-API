@@ -60,6 +60,7 @@ class Entry extends Component
         $page = (int)$request->getParam('page');
         $perPage = (int)$request->getParam('perPage') ?: 10;
         $filter = $request->getParam('filter');
+        $response = $request->getParam('response');
         
         $entries = CraftEntry::find();
             
@@ -75,6 +76,10 @@ class Entry extends Component
         
         // Handle any pagination
         $result = $page ? Plugin::getInstance()->helper->paginate($entries, $page, $perPage) : [];
+        
+        // Custom output? E.g. ids, count, etc.
+        if ($response)
+            return $entries->$response();
         
         // Process each entry
         $result = [];

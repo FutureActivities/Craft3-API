@@ -30,6 +30,9 @@ class Plugin extends \craft\base\Plugin
                 $event->rules['api/category/<method>'] = 'fa-api/api/category';
                 $event->rules['api/category/<method>/<params:.+>'] = 'fa-api/api/category';
                 
+                $event->rules['api/tag/<method>'] = 'fa-api/api/tag';
+                $event->rules['api/tag/<method>/<params:.+>'] = 'fa-api/api/tag';
+                
                 $event->rules['api/user/<method>'] = 'fa-api/api/user';
                 $event->rules['api/user/<method>/<params:.+>'] = 'fa-api/api/user';
                 
@@ -46,6 +49,7 @@ class Plugin extends \craft\base\Plugin
             'user' => \futureactivities\api\services\User::class,
             'entry' => \futureactivities\api\services\Entry::class,
             'category' => \futureactivities\api\services\Category::class,
+            'tag' => \futureactivities\api\services\Tag::class,
             'general' => \futureactivities\api\services\General::class,
         ]);
     }

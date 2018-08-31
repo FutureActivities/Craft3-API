@@ -64,6 +64,11 @@ Get all entries after a specific post date:
 Get all entries related to a category:
 
     api/entry/collection?filter[0][field]=relatedTo&filter[0][value][sourceElement]=100&filter[0][value][field]=category
+    
+##### Response
+
+By default, the response will be all the fields for each entry. You can override this
+with the `response` param and pass in a value such `ids` or `count`.
 
 ## Categories
 
@@ -77,6 +82,14 @@ Get all entries related to a category:
 
 ### Get Collection
     GET /api/category/collection
+    
+## Tags
+
+### Get by ID
+    GET /api/tag/id/:id
+
+### Get Collection
+    GET /api/tag/collection
     
 ## Users
 
