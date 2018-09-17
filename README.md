@@ -79,6 +79,12 @@ with the `response` param and pass in a value such `ids` or `count`.
 ### Get by Slug
 
     GET /api/category/slug/:slug
+    
+### Get by URI
+
+    GET /api/category/uri/:uri
+    
+Supports any number of levels, e.g. /api/category/uri/news/category/post
 
 ### Get Collection
     GET /api/category/collection
