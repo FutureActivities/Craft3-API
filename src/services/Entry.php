@@ -34,7 +34,27 @@ class Entry extends Component
      * 
      * @cache
      */
-    public function slug()
+    public function slug($slug)
+    {
+        $entry = CraftEntry::find()
+            ->slug($slug)
+            ->one();
+            
+        if (!$entry)
+            throw new ApiException('Entry not found');
+        
+        $parsed = Plugin::getInstance()->helper->parseAttributes($entry);
+        Plugin::getInstance()->helper->getDescendants($entry, $parsed);
+        
+        return $parsed;
+    }
+    
+    /**
+     * Get an entry by uri
+     * 
+     * @cache
+     */
+    public function uri()
     {
         $uri = implode('/', func_get_args());
         $entry = \Craft::$app->elements->getElementByUri($uri);
