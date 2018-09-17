@@ -34,12 +34,11 @@ class Entry extends Component
      * 
      * @cache
      */
-    public function slug($slug)
+    public function slug()
     {
-        $entry = CraftEntry::find()
-            ->slug($slug)
-            ->one();
-            
+        $uri = implode('/', func_get_args());
+        $entry = \Craft::$app->elements->getElementByUri($uri);
+
         if (!$entry)
             throw new ApiException('Entry not found');
         

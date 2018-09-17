@@ -3,6 +3,7 @@ namespace futureactivities\api\services;
 
 use yii\base\Component;
 use craft\elements\Entry AS CraftEntry;
+use nystudio107\seomatic\helpers\MetaValue as MetaValueHelper;
 
 use futureactivities\api\Plugin;
 
