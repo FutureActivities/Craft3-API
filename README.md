@@ -21,6 +21,12 @@ Currently this does not support multi-site. It is planned!
 
     GET /api/entry/slug/:slug
 
+### Get by URI
+
+    GET /api/entry/uri/:uri
+    
+Supports any number of levels, e.g. /api/category/uri/news/category/post
+
 ### Get Collection
 
     GET /api/entry/collection
@@ -75,16 +81,6 @@ with the `response` param and pass in a value such `ids` or `count`.
 ### Get by ID
 
     GET /api/category/id/:id
-    
-### Get by Slug
-
-    GET /api/category/slug/:slug
-    
-### Get by URI
-
-    GET /api/category/uri/:uri
-    
-Supports any number of levels, e.g. /api/category/uri/news/category/post
 
 ### Get Collection
     GET /api/category/collection
