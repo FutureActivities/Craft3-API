@@ -1,6 +1,8 @@
 # Future Activities Craft 3 API
 
-This plugin attempts to create a RESTful API for Craft 3.
+**DEPRECATED** - Use this instead: https://github.com/FutureActivities/Craft3-REST-API
+
+This plugin attempts to create an API for Craft 3.
 
 No need to configure anything as it will automatically start working.
 
